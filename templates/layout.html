@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Tabbit - pastebin with tabs</title>
+
+	<link rel="stylesheet" type="text/css" href="css/tabbit.css">
+	<link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono|Source+Code+Pro|Cousine|Carme|Anonymous+Pro' rel='stylesheet' type='text/css'>
+
+	<link rel="stylesheet" type="text/css" href="./js/highlightjs/styles/github.css">
+
+	<script src='./js/jquery.js'></script>
+	<script src="./js/highlightjs/highlight.pack.js"></script>
+
+	
+	
+	
+
+
+
+	
+</head>
+
+
+
+<!--		
+Before hilighting, we must store the original entry 
+somewhere (body data-entry). 
+So when we hit reply, instead of getting
+the hilighted text, we get texts from body's data-entry	
+(we dont want hilighted text because it contains <spans> for the hiliting)
+-->
+<body data-id='{{ result.id }}' data-entry='{{ result | json }}' >
+
+	<main>
+
+
+
+		<!-- header -->
+		<section id='header'>
+			<nav>
+				<ul>
+					<li><a href="/">new</a></li>
+					<li><a href="/about">about</a></li>
+					<li><a href="/recent">recent</a></li>
+				</ul>
+			</nav>
+		</section>
+
+
+		<!-- main content -->
+		<section id='content'>
+			
+			
+			{% if !id %}
+
+				<!-- Tabs -->
+				{% block tabs %}{% endblock %}
+			
+				<!-- Form for new pastes -->
+				{% block form %}{% endblock %}
+
+
+			{% else %}
+
+				{% if id == 'recent' %}
+					{% block recent %}{% endblock %}
+				{% endif %}
+
+				<!-- Viewing pastes -->
+				{% block tabs %}{% endblock %}
+				{% block view_paste %}{% endblock %}
+
+			{% endif %}
+
+
+
+		</section>
+
+	</main>
+
+
+
+<script type="text/javascript">
+
+	var $tabs = $('.tabs')
+		, $textarea = $('textarea:eq(0)').clone()
+		, $textareaContainer = $('.textareas')
+		, $texts = $('#pastes table') || null
+		, $lineNumbers = $('.line-numbers') || null
+		, server = window.location.origin + ':3001/'
+		//, lines
+		;
+
+
+		
+
+
+	/**
+	 * Form to show when entering a new paste 
+	 */
+	$('form').submit(function(e) {
+		
+	 	e.preventDefault()
+		window.entry = []
+	 	
+	 	for(var i = 0; i < $tabs.children(':not(#new-tab)').length; i++) {
+
+	 		var tab, text, tmp = {}
+
+	 		tab = $tabs.children(':not(#new-tab)')[i].textContent.trim() || 'untitled'
+	 		text = $textareaContainer.children()[i].value.trim()
+
+	 		if (text) {
+	 			tmp.tab = tab
+	 			tmp.text = text
+	 			entry.push(tmp)
+	 		}
+	 		
+	 	}
+
+
+	 	if (entry.length) {
+			$.ajax({
+				type: "POST",
+				url: server,
+				//  parent_id is the id of the entry this reply came from, if any.
+				// We stored it in the body's data attr when page loaded
+				data: {entry: entry, parent_id: $('body').data('parent_id')}
+			}).done(function(data) {
+				
+				window.document.location.assign(window.location.origin + '/' + data)
+			
+			})
+		}
+	})
+
+
+
+
+	/**
+	 * When the '+' tab is clicked, create a new tab (untitled)
+	 * and a new textarea.
+	 * Clone a tab. doesn't matter which one. Append it
+	 * to the $tabs lists. Remove 'active' class from all li's
+	 * and append 'active' to the $newTab. Same concept 
+	 * for the textarea
+	 */
+	
+	$('#new-tab').click(function() {
+		
+		$tabs.find('.active').removeClass('active')
+		$newTab = $tabs
+			.find('li:eq(0)')
+			.clone('WithDataAndEvents')
+			.text('untitled')
+			.addClass('active');
+
+		$tabs.append($newTab);
+
+		// Append the clicked li ('+') to end of list
+		$tabs.append(this)
+
+		$textareaContainer.children().hide()
+		$textareaContainer.append($textarea.clone().show())
+	})
+
+
+	/*
+	 * Hitting 'reply' stores data in the browser
+	 * so we can retrieve it after redirecting to /
+	 */
+	$('#reply').click(function() {
+		var texts = [], tabs = []
+		
+		var original_entry = $('body').data('entry')
+		
+		
+		localStorage.id = original_entry.id
+		localStorage.tabs = JSON.stringify(original_entry.tabs);
+		localStorage.texts = JSON.stringify(original_entry.texts);
+		
+		
+		window.document.location.assign('/');
+	})
+
+
+
+
+	/*
+	 * If we have an entry stored in localStorage, 
+	 * prepopulate form. This means the user clicked the
+	 * reply button
+	 */
+	if (localStorage.tabs && localStorage.texts && localStorage.id) {
+		
+		var tabs = JSON.parse(localStorage.tabs)
+		var texts = JSON.parse(localStorage.texts)
+		
+		// Store id of parent post (if any) in the body tag
+		$('body').data('parent_id', localStorage.id)
+		
+		var $tab = $tabs.find('li:eq(0)').detach()
+		var $t = $('.textareas').find('textarea:eq(0)').detach()
+		var $new_tab = $('#new-tab').detach()
+		
+		$tabs.empty()
+	
+		for (var i = 0;  i < texts.length; i++) {
+			
+			
+			$tabs.append($tab.clone().html(tabs[i]))
+		
+
+			$('.textareas').append( $t.clone().html(texts[i]) )
+		}
+
+		// Append the + tab to the end
+		
+		$tabs.append($new_tab)
+		$tabs.find('.active').removeClass('active')
+		$tabs.find('li:eq(0)').addClass('active')
+		
+		delete localStorage.tabs
+		delete localStorage.texts
+		//delete localStorage.id
+
+	}
+
+
+
+		/**
+		 * Clicking on a tab. If we are viewing a paste, we
+		 * replace the paste area with the paste's contents.
+		 * If we're creating a paste, just show the
+		 * corresponding textarea.
+		 */
+		$(document.body).on('click', 'ul.tabs > li:not(#new-tab, .active)', function() {
+			
+			var index = $(this).index()
+			
+			$tabs.find('.active').removeClass('active')
+			
+			$(this).addClass('active')
+			
+			//if(id) {
+			$texts.hide()
+			$texts.eq(index).show()				
+
+			//} else {
+			var $toShow = $($textareaContainer.children()[index])
+			$textareaContainer.children().hide()				
+			$toShow.show()
+
+
+			//}
+		})
+
+
+
+
+		
+
+
+
+
+
+
+		
+
+
+
+</script>
+	
+</body>
+</html>

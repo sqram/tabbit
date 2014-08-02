@@ -1,0 +1,40 @@
+{% extends 'layout.html' %}
+
+
+
+
+
+
+{% block recent %}
+<div id='pastes-container'>
+Most recent at the top left
+	<div id="pastes">
+		<table border="0" cellpadding='0' cellspacing='0'>
+			<tr>
+				
+				<td class='paste'>
+					<ul class="recents">
+						{% for link in links %}
+							<li><a href="{{ link }}">{{ link }}</a></li>
+						{% endfor %}
+					</ul>
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

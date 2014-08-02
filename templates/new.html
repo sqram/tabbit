@@ -1,0 +1,52 @@
+{% extends 'layout.html' %}
+
+
+
+	{% block tabs %}
+	<ul class="tabs">
+		<li class="active" contenteditable="true">untitled</li>
+		<li id="new-tab">+</li>
+	</ul>
+	{% endblock %}
+
+
+
+
+	{% block form %}
+	<form>
+		<div class="textareas">
+			<textarea autofocus name="contents" id="" cols="80" rows="30"></textarea>
+		</div>
+
+
+		<input type="text" id="fake" />
+		<input type="submit" value="paste" />
+	</form>
+	{% endblock %}
+
+
+<script type="text/javascript">
+	
+
+	/*
+	 * If we have an entry stored in localStorage, 
+	 * prepopulate form. This means the user clicked the
+	 * reply button
+	 */
+	/*if (localStorage.tabs && localStorage.texts) {
+		alert()
+	
+		$tab = $tabs.eq(0).clone()
+		$textarea = $('.textareas textarea:eq(0)').clone()
+
+		for (var i = 0; var i <= localStorage.texts.length; i++) {
+			console.log('appending')
+			$tab.append($tab)
+		}*/
+
+		//delete localStorage.tabs
+		//delete localStorage.texts
+
+	}
+
+</script>
