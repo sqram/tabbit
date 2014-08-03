@@ -142,6 +142,14 @@ app.use(connect_route(function(router) {
 
 	})
 
+	router.get('/about', function(req, res, next) {
+		
+		swig.renderFile(config.tpl_dir + '/about.html', {id: 'about'}, function(e, output) {
+			res.end(output)
+		})	
+
+	})
+
 
 	// puny little server may not handle such intense request. May the force be with us
 	router.get('/:id', function(req, res, next) {
@@ -502,8 +510,9 @@ function uniqueId(loop, async_callback) {
 	// Cut off the array past the random number generated above
 	var id = chars.slice(0, random).join('')
 
-	// url cannot be site.com/.
-	if (id === '.' || id === '..') uniqueId(loop, async_callback)
+	// There are certains urls that the id cannot be
+	var denied = ['..', '.', 'recent', 'about']
+	if (denied.indexOf(id) !== -1) uniqueId(loop, async_callback)
 
 	r.table('entries').filter({'id':id}).count().run(connection, function(e, count) {
 

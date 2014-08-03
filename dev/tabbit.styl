@@ -50,8 +50,8 @@ main
 				font-weight bold
 				letter-spacing 1px
 
-			a:hover
-				background #4C728B
+				&:hover
+					background #4C728B
 
 
 	ul.tabs
@@ -88,8 +88,8 @@ main
 		li:first-child
 			/*border-left:1px solid #444*/
 
-		li[contenteditable=true]:hover
-			background #000
+			&:hover
+				background #000
 
 
 
@@ -129,7 +129,7 @@ main
 			background: #2D2D2D;
 			font-size: 14px;
 
-		input[type=submit]:hover, input[type=button]:hover
+			&:hover
 				background #444
 				border-color #222
 
@@ -142,11 +142,11 @@ main
 
 		a.button
 			/* same as .input[type=buttpn] */
-			padding 10px 20px
+			padding 10px 24px
 			border none;
 			font-weight bold
 			letter-spacing 2px
-			margin 15px 0
+			
 			display inline-block
 			color #eee
 
@@ -154,11 +154,14 @@ main
 			font-size 14px
 
 			position: fixed;
-			left: 106px;
-			top: 135px;
+			left: 9%;
+			top: 150px;
 			transform: rotate(90deg);
 			transform-origin: left top 0;
-			position: fixed;
+			
+			&:hover
+				background #444
+				border-color #222
 			
 
 
@@ -279,12 +282,9 @@ main
 				padding: 0px 10px;
 				color: rgb(74, 113, 173);
 			
-			ul.recents li a:hover 
-				display: inline-block;
-				background: rgba(209, 93, 93, 0.13);
-			
-					
-			
+				&:hover
+					display: inline-block;
+					background: rgba(209, 93, 93, 0.13);			
 
 
 		pre
@@ -294,6 +294,15 @@ main
 			white-space	pre
 			line-height 15px
 			font-size $paste_font_size
+
+
+	.about
+		img
+			border 1px dashed #444
+
+		li
+			margin 5px 0
+
 
 		
 

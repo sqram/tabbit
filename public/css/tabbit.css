@@ -68,7 +68,7 @@ main ul.tabs li#new-tab {
   border-top: none;
   color: #333;
 }
-main ul.tabs li[contenteditable=true]:hover {
+main ul.tabs li:first-child:hover {
   background: #000;
 }
 main form textarea {
@@ -104,8 +104,8 @@ main form input[type=submit] {
   background: #2d2d2d;
   font-size: 14px;
 }
-main form input[type=submit]:hover,
-main form input[type=button]:hover {
+main form input[type=button]:hover,
+main form input[type=submit]:hover {
   background: #444;
   border-color: #222;
 }
@@ -115,21 +115,23 @@ main #pastes-container {
 }
 main #pastes-container a.button {
 /* same as .input[type=buttpn] */
-  padding: 10px 20px;
+  padding: 10px 24px;
   border: none;
   font-weight: bold;
   letter-spacing: 2px;
-  margin: 15px 0;
   display: inline-block;
   color: #eee;
   background: #2d2d2d;
   font-size: 14px;
   position: fixed;
-  left: 106px;
-  top: 135px;
+  left: 9%;
+  top: 150px;
   transform: rotate(90deg);
   transform-origin: left top 0;
-  position: fixed;
+}
+main #pastes-container a.button:hover {
+  background: #444;
+  border-color: #222;
 }
 main #pastes-container #entry-info ul,
 main #pastes-container #entry-info text-align right {
@@ -245,6 +247,12 @@ main #pastes pre {
   white-space: pre;
   line-height: 15px;
   font-size: 80%;
+}
+main .about img {
+  border: 1px dashed #444;
+}
+main .about li {
+  margin: 5px 0;
 }
 a {
   text-decoration: none;
