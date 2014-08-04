@@ -1,12 +1,13 @@
 /*
- * In Apache, have
-
- * <VirtualHost *:80>
- *  ServerName tabbit.org
- *  DocumentRoot "/srv/http/tabbit.org/public
- *  FallbackResource /index.html
- * </VirtualHost>
-
+ * If using Apache, you'll need proxypass
+ *  <VirtualHost 127.0.0.1:80>
+ *      ServerName tabbit.local
+ *       DocumentRoot "/mnt/shared/sites/www/prod/tabbit.org/public"
+ *       ProxyPass / http://localhost:3001/
+ *       ProxyPassReverse / http://localhost:3001/
+ *       ErrorLog "/var/log/httpd/tabbit.log"
+ *   </VirtualHost>
+ *
  * Terminology:
  * Entry: An entry in the database. Can have pastes
  * Paste:  a tab with a corresponding text. Can be multiples
@@ -20,7 +21,6 @@ var r = require('rethinkdb')
     , connect = require('connect')
     , swig = require('swig')
     , async = require('async')
-    , escape = require('escape-html')
     , path = require('path')
     , corser = require('corser')
     , body_parser = require('body-parser')
@@ -32,6 +32,7 @@ var r = require('rethinkdb')
     ;
 
 
+// Use daemon in production
 // require('daemon')()
 
 /******************************************************************
@@ -48,7 +49,7 @@ config = {
  * Swig settings
  ******************************************************************/
 swig.setDefaults({
-    cache: false
+    cache: false // comment out for prod.
 });
 
 
@@ -289,8 +290,8 @@ app.use(connect_route(function(router) {
             // If there's no error, semi-populate db_entry.
             // Then finish populating it in waterfall
             if (!error) {
-                db_entry.tabs.push(escape(paste.tab))
-                db_entry.texts.push(escape(paste.text))
+                db_entry.tabs.push(paste.tab)
+                db_entry.texts.push(paste.text)
                 db_entry.date = Date.now()
                 db_entry.ip = req.headers['x-forwarded-for']
                     || req.connection.remoteAddress
