@@ -29,7 +29,8 @@
 	<div id='pastes-container'>
 
 		
-			<a class="button" id="reply">reply</a>
+		<a class="button" id="reply">reply</a>
+		<a id='button-clipboard' alt='copy to clipboard' title='copy to clipboard'></a>
 		
 
 
@@ -48,6 +49,9 @@
 							</ul>
 						</td>
 						<td class='paste'>
+							<!-- overlay for clipboard notification -->
+							<div class="paste-overlay"></div>
+
 							<pre>{{ text }}</pre>
 						</td>
 					</tr>		
@@ -83,11 +87,40 @@
 		
 	</div>
 
-	<script type="text/javascript">		
+	<script type="text/javascript">	
 		$('pre').each(function(i, e) {
 			hljs.highlightBlock(e);
-		});		
-	</script>
+		});
+
+
+
+	/*
+	 * Hitting 'reply' stores data in the browser
+	 * so we can retrieve it after redirecting to /
+	 */
+	$('#reply').click(function() {
+		var texts = [], tabs = []
+		
+		var original_entry = JSON.parse($('#original').text().trim())
+		
+		localStorage.id = original_entry.id
+		localStorage.tabs = JSON.stringify(original_entry.tabs);
+		localStorage.texts = JSON.stringify(original_entry.texts);
+		
+		window.document.location.assign('/');
+	})
+
+
+
+
+
+
+
+
+</script>
+
+
+
 
 
 {% endblock %}

@@ -6,7 +6,7 @@
 	<link rel="stylesheet" type="text/css" href="css/tabbit.css">
 	<link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono|Source+Code+Pro|Cousine|Carme|Anonymous+Pro' rel='stylesheet' type='text/css'>
 
-	<link rel="stylesheet" type="text/css" href="./js/highlightjs/styles/github.css">
+	<link rel="stylesheet" type="text/css" href="./js/highlightjs/styles/monokai_sublime.css">
 
 	<script src='./js/jquery.js'></script>
 	<script src="./js/highlightjs/highlight.pack.js"></script>
@@ -160,21 +160,7 @@
 	})
 
 
-	/*
-	 * Hitting 'reply' stores data in the browser
-	 * so we can retrieve it after redirecting to /
-	 */
-	$('#reply').click(function() {
-		var texts = [], tabs = []
-		
-		var original_entry = JSON.parse($('#original').text().trim())
-		
-		localStorage.id = original_entry.id
-		localStorage.tabs = JSON.stringify(original_entry.tabs);
-		localStorage.texts = JSON.stringify(original_entry.texts);
-		
-		window.document.location.assign('/');
-	})
+	
 
 
 	/*
@@ -247,9 +233,43 @@
 
 
 
-
 </script>
 
+<script type="text/javascript" src='./js/zeroclipboard/ZeroClipboard.min.js'></script>
+<script type="text/javascript">
+	
+	/*
+	 * ZeroClipboard code to copy text into clipboard
+	 */
+	var client = new ZeroClipboard( document.getElementById("button-clipboard") );
+
+	client.on( "ready", function( readyEvent ) {
+	// alert( "ZeroClipboard SWF is ready!" );
+
+		var $table, tableIndex, entry
+
+		client.on("copy", function(event) {
+			var clipboard = event.clipboardData;
+
+			$table = $('table').filter(':visible')
+
+			tableIndex = $table.index()
+
+			entry = JSON.parse($('#original').text().trim())
+			
+			clipboard.setData("text/plain",entry.texts[tableIndex])
+		})
+
+		 client.on( "aftercopy", function( event ) {
+		 	$table.find('.paste-overlay').css('z-index', '2').fadeIn(100, function() {
+		 		$(this).fadeOut()
+		  	})
+		});
+	});
+
+
+	
+</script>
 
 <!--		
 We store the un-hilighted version in a hidden div (#original).
