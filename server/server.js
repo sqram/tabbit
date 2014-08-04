@@ -21,6 +21,7 @@ var r = require('rethinkdb')
     , connect = require('connect')
     , swig = require('swig')
     , async = require('async')
+    , escape = require('escape-html')
     , path = require('path')
     , corser = require('corser')
     , body_parser = require('body-parser')
@@ -50,6 +51,7 @@ config = {
  ******************************************************************/
 swig.setDefaults({
     cache: false // comment out for prod.
+    //,autoescape: false // escape-html will escape for us
 });
 
 

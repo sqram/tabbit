@@ -67,9 +67,6 @@
 				
 			</ul>
 			
-		
-
-		
 			<ul id="family-tree">
 				{% for parent in result.parents %}
 					<li><a href="{{ parent }}">{{ parent }}</a> &raquo; </li>
@@ -79,29 +76,17 @@
 
 				{% for child in result.children %}
 					<li>  &raquo; <a href="{{ child }}">{{ child }}</a> </li>
-				{% endfor %}
-					
+				{% endfor %}					
 			</ul>
-
-
-	
 
 		</div>
 		
-
-		
 	</div>
 
-	<script type="text/javascript">
-
-		
-		 
-
-		
+	<script type="text/javascript">		
 		$('pre').each(function(i, e) {
 			hljs.highlightBlock(e);
-		});
-		
+		});		
 	</script>
 
 

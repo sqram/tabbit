@@ -22,14 +22,7 @@
 
 
 
-<!--		
-Before hilighting, we must store the original entry 
-somewhere (body data-entry). 
-So when we hit reply, instead of getting
-the hilighted text, we get texts from body's data-entry	
-(we dont want hilighted text because it contains <spans> for the hiliting)
--->
-<body data-id='{{ result.id }}' data-entry='{{ result | json }}' >
+<body>
 
 <a href="https://github.com/katsh/tabbit" target="_blank"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://camo.githubusercontent.com/567c3a48d796e2fc06ea80409cc9dd82bf714434/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png"></a>
 
@@ -95,11 +88,7 @@ the hilighted text, we get texts from body's data-entry
 		, $texts = $('#pastes table') || null
 		, $lineNumbers = $('.line-numbers') || null
 		, server = window.location.origin + ':3001/'
-		//, lines
 		;
-
-
-		
 
 
 	/**
@@ -122,7 +111,6 @@ the hilighted text, we get texts from body's data-entry
 	 			tmp.text = text
 	 			entry.push(tmp)
 	 		}
-	 		
 	 	}
 
 
@@ -179,18 +167,14 @@ the hilighted text, we get texts from body's data-entry
 	$('#reply').click(function() {
 		var texts = [], tabs = []
 		
-		var original_entry = $('body').data('entry')
-		
+		var original_entry = JSON.parse($('#original').text().trim())
 		
 		localStorage.id = original_entry.id
 		localStorage.tabs = JSON.stringify(original_entry.tabs);
 		localStorage.texts = JSON.stringify(original_entry.texts);
 		
-		
 		window.document.location.assign('/');
 	})
-
-
 
 
 	/*
@@ -199,11 +183,13 @@ the hilighted text, we get texts from body's data-entry
 	 * reply button
 	 */
 	if (localStorage.tabs && localStorage.texts && localStorage.id) {
-		
 		var tabs = JSON.parse(localStorage.tabs)
 		var texts = JSON.parse(localStorage.texts)
 		
-		// Store id of parent post (if any) in the body tag
+		// Before deleting localStorage, store the id of the entry
+		// we are replying to(if any) in the body tag.
+		// This will be sent as POST when we submit so the server
+		// can know who this entry's parent is
 		$('body').data('parent_id', localStorage.id)
 		
 		var $tab = $tabs.find('li:eq(0)').detach()
@@ -214,11 +200,9 @@ the hilighted text, we get texts from body's data-entry
 	
 		for (var i = 0;  i < texts.length; i++) {
 			
-			
 			$tabs.append($tab.clone().html(tabs[i]))
-		
 
-			$('.textareas').append( $t.clone().html(texts[i]) )
+			$('.textareas').append( $t.clone().text(texts[i]) )
 		}
 
 		// Append the + tab to the end
@@ -229,54 +213,54 @@ the hilighted text, we get texts from body's data-entry
 		
 		delete localStorage.tabs
 		delete localStorage.texts
-		//delete localStorage.id
-
+		delete localStorage.id
 	}
 
 
 
-		/**
-		 * Clicking on a tab. If we are viewing a paste, we
-		 * replace the paste area with the paste's contents.
-		 * If we're creating a paste, just show the
-		 * corresponding textarea.
-		 */
-		$(document.body).on('click', 'ul.tabs > li:not(#new-tab, .active)', function() {
-			
-			var index = $(this).index()
-			
-			$tabs.find('.active').removeClass('active')
-			
-			$(this).addClass('active')
-			
-			//if(id) {
-			$texts.hide()
-			$texts.eq(index).show()				
-
-			//} else {
-			var $toShow = $($textareaContainer.children()[index])
-			$textareaContainer.children().hide()				
-			$toShow.show()
-
-
-			//}
-		})
-
-
-
-
+	/**
+	 * Clicking on a tab. If we are viewing a paste, we
+	 * replace the paste area with the paste's contents.
+	 * If we're creating a paste, just show the
+	 * corresponding textarea.
+	 */
+	$(document.body).on('click', 'ul.tabs > li:not(#new-tab, .active)', function() {
 		
-
-
-
-
-
-
+		var index = $(this).index()
 		
+		$tabs.find('.active').removeClass('active')
+		
+		$(this).addClass('active')
+		
+		//if(id) {
+		$texts.hide()
+		$texts.eq(index).show()				
+
+		//} else {
+		var $toShow = $($textareaContainer.children()[index])
+		$textareaContainer.children().hide()				
+		$toShow.show()
+
+
+		//}
+	})
+
 
 
 
 </script>
-	
-</body>
+
+
+<!--		
+We store the un-hilighted version in a hidden div (#original).
+So when we hit reply, instead of getting 
+the hilighted text, which is filled with <spans> for the hilighting,
+we get texts from this hidden div. This `raw` data is stored in
+localStorage when user hits reply. User is then redirected to /
+where we load content from the dataStorage.
+-->
+<div id="original" style="display: none">
+	{{ result | json}}
+</div>
+
 </html>
