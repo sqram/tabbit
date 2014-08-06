@@ -139,6 +139,11 @@ main
 		display block
 		position relative
 
+		// Clipboard button
+		// Initial display none. When it's ready, we show it (in the js)
+		#button-clipboard
+			display none
+
 
 		a.button
 			/* same as .input[type=buttpn] */
@@ -281,8 +286,9 @@ main
 			position relative
 
 			ul.recents 
-				margin: 0;
-				padding: 0;
+				margin 0
+				padding 15px
+				overflow auto
 			
 
 			ul.recents li 
@@ -308,12 +314,17 @@ main
 			.paste-overlay
 				width 100%
 				height 100%
-				background rgba(62, 116, 64, 0.5)
 				display none
 				position absolute
 				top 0
 				left 0
-				z-index -1		
+				z-index -1
+
+			.overlay-success				
+				background rgba(62, 116, 64, 0.5)
+				
+			.overlay-error
+				background rgba(182, 51, 33, 0.5);	
 
 
 			pre

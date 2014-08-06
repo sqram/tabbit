@@ -6,7 +6,7 @@
 	<link rel="stylesheet" type="text/css" href="css/tabbit.css">
 	<link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono|Source+Code+Pro|Cousine|Carme|Anonymous+Pro' rel='stylesheet' type='text/css'>
 
-	<link rel="stylesheet" type="text/css" href="./js/highlightjs/styles/monokai_sublime.css"> <!--github-->
+	<link rel="stylesheet" type="text/css" href="./js/highlightjs/styles/github.css"> <!--github-->
 
 	<script src='./js/jquery.js'></script>
 	<script src="./js/highlightjs/highlight.pack.js"></script>
@@ -156,7 +156,7 @@
 		$tabs.append(this)
 
 		$textareaContainer.children().hide()
-		$textareaContainer.append($textarea.clone().show())
+		$textareaContainer.append($textarea.clone().css('display','block'))
 	})
 
 
@@ -241,32 +241,49 @@
 	/*
 	 * ZeroClipboard code to copy text into clipboard
 	 */
-	var client = new ZeroClipboard( document.getElementById("button-clipboard") );
+	var clipboardButton = document.getElementById("button-clipboard") || ''
+	if (clipboardButton) {
+		var client = new ZeroClipboard(clipboardButton);
 
-	client.on( "ready", function( readyEvent ) {
-	// alert( "ZeroClipboard SWF is ready!" );
-
-		var $table, tableIndex, entry
-
-		client.on("copy", function(event) {
-			var clipboard = event.clipboardData;
-
-			$table = $('table').filter(':visible')
-
-			tableIndex = $table.index()
-
-			entry = JSON.parse($('#original').text().trim())
+		client.on( "ready", function( readyEvent ) {
 			
-			clipboard.setData("text/plain",entry.texts[tableIndex])
-		})
+			clipboardButton.style.display = 'block'
 
-		 client.on( "aftercopy", function( event ) {
-		 	$table.find('.paste-overlay').css('z-index', '2').fadeIn(100, function() {
-		 		$(this).fadeOut()
-		  	})
+			var $table, tableIndex, entry, error = false
+
+			client.on("copy", function(event) {
+
+				
+				var clipboard = event.clipboardData;
+				
+
+				$table = $('table').filter(':visible')
+				
+
+				tableIndex = $table.index()
+				
+				try {
+					entry = JSON.parse($('#original').text().trim())
+				} catch (e) {
+					error = true
+				}
+				
+
+								
+				clipboard.setData("text/plain",entry.texts[tableIndex])
+			})
+
+			 client.on( "aftercopy", function( event ) {
+			 	var c = error ? 'overlay-error' : 'overlay-success'
+			 	$table
+			 		.find('.paste-overlay').addClass(c)
+			 		.css('z-index', '2')
+			 		.fadeIn(100, function() {
+			 			$(this).fadeOut()
+			  		})
+			});
 		});
-	});
-
+	}
 
 	
 </script>

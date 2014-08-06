@@ -113,6 +113,9 @@ main #pastes-container {
   display: block;
   position: relative;
 }
+main #pastes-container #button-clipboard {
+  display: none;
+}
 main #pastes-container a.button {
 /* same as .input[type=buttpn] */
   padding: 10px 24px;
@@ -234,7 +237,8 @@ main #pastes td.paste {
 }
 main #pastes td.paste ul.recents {
   margin: 0;
-  padding: 0;
+  padding: 15px;
+  overflow: auto;
 }
 main #pastes td.paste ul.recents li {
   float: left;
@@ -253,12 +257,17 @@ main #pastes td.paste ul.recents li a:hover {
 main #pastes td.paste .paste-overlay {
   width: 100%;
   height: 100%;
-  background: rgba(62,116,64,0.5);
   display: none;
   position: absolute;
   top: 0;
   left: 0;
   z-index: -1;
+}
+main #pastes td.paste .overlay-success {
+  background: rgba(62,116,64,0.5);
+}
+main #pastes td.paste .overlay-error {
+  background: rgba(182,51,33,0.5);
 }
 main #pastes td.paste pre {
   margin: 0;

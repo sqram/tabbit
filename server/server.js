@@ -49,7 +49,7 @@ config = {
  * Swig settings
  ******************************************************************/
 swig.setDefaults({
-    cache: false // comment out for prod.
+    cache: false // do not use cache:false in prod!
 });
 
 
