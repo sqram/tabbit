@@ -1,0 +1,41 @@
+{
+  "name": "tabbit.org",
+  "version": "1.0.0",
+  "description": "pastebin with tabs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sqram/tabbit.git"
+  },
+  "keywords": [
+    "pastebin"
+  ],
+  "author": "sqram",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sqram/tabbit/issues"
+  },
+  "homepage": "https://github.com/sqram/tabbit#readme",
+  "devDependencies": {
+    "broccoli": "^0.16.8",
+    "broccoli-funnel": "^0.2.8",
+    "broccoli-merge-trees": "^0.2.3",
+    "broccoli-stylus-single": "^0.4.1",
+    "mongo-express": "^0.21.0",
+    "stylus": "^0.52.4"
+  },
+  "dependencies": {
+    "co-body": "^4.0.0",
+    "date-format": "0.0.2",
+    "kcors": "^1.0.1",
+    "koa": "^1.0.0",
+    "koa-favicon": "^1.2.0",
+    "koa-router": "^5.1.2",
+    "koa-static": "^1.4.9",
+    "mongodb-promisified": "^1.0.3",
+    "nunjucks": "^2.0.0"
+  }
+}

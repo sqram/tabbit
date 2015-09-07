@@ -1,0 +1,79 @@
+<!-- template for viewing an entry -->
+
+{% extends './base.html' %}
+
+{% block entry %}
+  <ul class="tabs">
+    {% for tab in doc.tabs %}
+      <li {% if loop.first %} class="active" {% endif %} >
+        {{ tab }}
+      </li>
+    {% endfor %}
+  </ul>
+
+  <style type="text/css">
+      table:not(:first-of-type) {display: none}
+  </style>
+
+
+  <div id='pastes-container'>
+
+    <a class="button" id="reply">reply</a>
+    <a class="button" id='button-clipboard'></a>
+    <div id="pastes">
+
+    <!-- loop through each text -->
+      {% for paste in doc.pastes %}
+      <table border="0" cellpadding='0' cellspacing='0'>
+          <tr>
+            <td>
+              <ul class='line-numbers'>
+                {% for line in doc.lines[loop.index0] %}
+                  <li>{{ line }}</li>
+                {% endfor %}
+              </ul>
+            </td>
+            <td class='paste'>
+              <div class="paste-overlay"><!-- overlay clipboard notification --></div>
+              <pre>{{ paste }}</pre>
+            </td>
+          </tr>
+      </table>
+      {% endfor %}
+    </div>
+
+    <div id="entry-info">
+      <ul>
+        <li class="author">Anonymous</li>
+        <li class="date">{{ doc.date }}</li>
+      </ul>
+
+      <ul id="family-tree">
+        {% for parent in doc.parents %}
+          <li><a href="{{ parent }}">{{ parent }}</a> &raquo; </li>
+        {% endfor %}
+
+        <li class="current">{{ doc.id }}</li>
+
+        {% for child in doc.children %}
+          <li>  &raquo; <a href="{{ child }}">{{ child }}</a> </li>
+        {% endfor %}
+      </ul>
+    </div>
+
+  </div>
+
+
+<!--
+We store the un-hilighted version in a hidden div (#original).
+So when we hit reply, instead of getting
+the hilighted text, which is filled with <spans> from the hilighting,
+we get texts from this hidden div. This 'raw' data is stored in
+localStorage when user hits reply. User is then redirected to /
+where we load content from the dataStorage.
+-->
+<div id="original" style="display: none">
+  {{ jsonDoc }}
+</div>
+
+{% endblock %}

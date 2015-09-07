@@ -1,0 +1,17 @@
+{% extends './base.html' %}
+
+{% block new %}
+<ul class="tabs">
+  <li class="active" contenteditable="true">untitled</li>
+  <li id="new-tab">+</li>
+</ul>
+
+<form>
+  <div class="textareas">
+    <textarea autofocus name="contents" id="" cols="80" rows="30"></textarea>
+  </div>
+
+  <input type="text" id="fake" /><!-- minimal captcha -->
+  <input type="submit" value="paste" />
+</form>
+{% endblock %}

@@ -1,0 +1,15 @@
+<!-- template for viwing all entries -->
+
+{% extends './base.html' %}
+{% block all %}
+  <div id='pastes-container'>
+    <div id="pastes" style="padding: 15px">
+      <div class="paste">
+        {% for id in ids %}
+          <a href='{{ id }}'>{{id}}</a>
+        {% endfor %}
+      </div>
+    </div>
+
+  </div>
+{% endblock %}
