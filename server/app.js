@@ -26,8 +26,6 @@ function* getOne () {
 
   if (this.path === '/favicon.ico') return;
 
-
-
   var doc = yield this.db.entries.findOne({id: this.params.id})
   if (!doc) {
     this.body = nunjucks.render('./views/404.html')
@@ -58,7 +56,6 @@ function* getOne () {
     doc: doc,
     jsonDoc: JSON.stringify(doc)
   })
-
 }
 
 
@@ -87,7 +84,6 @@ function* add () {
   // Basic security check
   if (!Array.isArray(body.pastes) || !body.pastes.length) return
   if (!Array.isArray(body.tabs)) return
-
 
   var entry = {
 
@@ -147,8 +143,6 @@ function* add () {
   }
 
   this.body = {result: 'success', id: entry.id}
-
-
 }
 
 
@@ -159,6 +153,7 @@ function* add () {
 function* home () {
   this.body = nunjucks.render('./views/new.html')
 }
+
 
 /**
  * /about route
@@ -200,6 +195,7 @@ function* uniqueId (koathis) {
 }
 
 
+
 router
   .get('/', home)
   .get('/about', about)
@@ -235,23 +231,4 @@ function db() {
     this.db = yield db
     yield next
   }
-}
-
-/**
- * We loop through this new entry's parents list.
- * For each parent, we append this new entry'd id
- * to their children[] list. This should be run async
- */
-
-function updateChildren(currentId, parents, koathis) {
-  console.log(typeof koathis.db.entries.updateOne)
-  console.log(koathis.db.entries)
-
-  if (!parents) return false
-
-  parents.forEach(parent => {
-    koathis.db.entries.updateOne({id: parent}, {
-      $push: { children: {$position: 0}, $each: [currentId]      }
-    })
-  })
 }
