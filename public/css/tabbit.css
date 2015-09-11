@@ -109,6 +109,20 @@ main form input[type=submit]:hover {
   background: #444;
   border-color: #222;
 }
+main form div#username {
+  display: inline-block;
+  float: right;
+  margin: 15px 0;
+}
+main form div#username input {
+  background: none;
+  border: none;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+  color: #ff8272;
+  font-weight: bold;
+  letter-spacing: 2px;
+  padding: 0 0 0 6px;
+}
 main #pastes-container {
   display: block;
   position: relative;

@@ -2,7 +2,7 @@
   "name": "tabbit.org",
   "version": "1.0.0",
   "description": "pastebin with tabs",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

@@ -88,7 +88,7 @@ function* add () {
   var entry = {
 
     // A unique id
-    id: yield uniqueId(this),
+    id: yield uniqueId(this.db),
 
     // A list of tab titles (untitled, helloworld.c)
     tabs: [],
@@ -107,9 +107,14 @@ function* add () {
 
     date: Date.now(),
 
-    ip: this.ip
+    ip: this.ip,
+
+    author: sanitizeAuthor(body.author)
   }
 
+  function sanitizeAuthor(str) {
+    return (typeof str != 'string' || !str.trim() || str.length > 15) ? 'anonymous' : str
+  }
 
   /*
    * In this loop, we:
@@ -173,7 +178,7 @@ function* about () {
  * @return {string} A string to be used as the id
  */
 
-function* uniqueId (koathis) {
+function* uniqueId (db) {
 
     // Allowed characters in our ids
     var chars = '☉♩☹☀☍☡☮☿♎♡♥♬♯⚋⚉abcdefghijklmnopqrst'
@@ -188,7 +193,7 @@ function* uniqueId (koathis) {
     // Generated id cannot be in `reserved` array or in database
     if ((['about', 'all'].indexOf(id) !== -1) || (id.charAt(0) == '.')) yield uniqueId()
 
-    var exists = yield koathis.db.entries.findOne({uid: id})
+    var exists = yield db.entries.findOne({uid: id})
     if (exists) yield uniqueId()
 
     return id

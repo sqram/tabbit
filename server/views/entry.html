@@ -44,7 +44,7 @@
 
     <div id="entry-info">
       <ul>
-        <li class="author">Anonymous</li>
+        <li class="author">{{ doc.author }}</li>
         <li class="date">{{ doc.date }}</li>
       </ul>
 
@@ -75,5 +75,9 @@ where we load content from the dataStorage.
 <div id="original" style="display: none">
   {{ jsonDoc }}
 </div>
+
+
+<script src='./js/zeroclipboard/ZeroClipboard.min.js'></script>
+
 
 {% endblock %}

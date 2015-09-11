@@ -1,4 +1,4 @@
-# tabbit.org pastebin 
+# [tabbit.org](http://tabbit.org) pastebin 
 
 keeping up with the times...
 
@@ -7,4 +7,8 @@ keeping up with the times...
 **database**: ~~`mysql`~~ ~~`rethinkdb`~~ `mongodb`  
   
 
-ps: stylus file and client js could use some cleanup & trimming
+server files in public via lighttpd/nginx/apache/whatever
+
+start with ```server~$ node app.js```
+
+ps: styl file and client js could use some cleanup & trimming. feel free.

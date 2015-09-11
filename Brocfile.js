@@ -15,20 +15,20 @@ var funnel = require('broccoli-funnel')
 
 
 // img tree
-var img = funnel('web/img', {
+var img = funnel('src/img', {
   srcDir: '/',
   destDir: 'img'
 })
 
 // js tree
-var js = funnel('web/js', {
+var js = funnel('src/js', {
   srcDir: '/',
   destDir: 'js'
 })
 
 
 // css tree
-var styles = funnel('web/css', {
+var styles = funnel('src/css', {
   srcDir: '/',
   destDir: 'css'
 })
