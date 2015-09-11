@@ -2,9 +2,9 @@
 
 keeping up with the times...
 
-**framework**: ~~`slim`~~ ~~`connect`~~ `koa`
-**templating**: ~~`php`~~ ~~`swig`~~ `nunjucks`
-**database**: ~~`mysql`~~ ~~`rethinkdb`~~ `mongodb`
+**framework**: ~~`slim`~~ ~~`connect`~~ `koa`  
+**templating**: ~~`php`~~ ~~`swig`~~ `nunjucks`  
+**database**: ~~`mysql`~~ ~~`rethinkdb`~~ `mongodb`  
 
 
 serve static files in public via your favorite http server
