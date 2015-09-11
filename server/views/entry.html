@@ -78,6 +78,76 @@ where we load content from the dataStorage.
 
 
 <script src='./js/zeroclipboard/ZeroClipboard.min.js'></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/highlight.min.js"></script>
+
+<script>
+  var preTags = document.querySelectorAll("pre")
+  Array.prototype.forEach.call(preTags, hljs.highlightBlock);
+
+
+
+  if (!window.location.pathname.match(/\/$|\/about|\/all/i)) {
+
+    var clipboardButton = document.getElementById("button-clipboard") || ''
+
+    ZeroClipboard.config({forceEnhancedClipboard: true})
+    var client = new ZeroClipboard(clipboardButton);
+
+
+    ZeroClipboard.on("ready", function( readyEvent ) {
+      clipboardButton.style.display = 'block'
+    });
+
+
+    ZeroClipboard.on('aftercopy', function(e) {
+      console.log('d')
+      console.log(e)
+    })
+
+    ZeroClipboard.on('error', function(e) {
+      console.log('error')
+      console.log(e)
+    })
+    var copyresult;
+
+    ZeroClipboard.on("copy", function(event) {
+      var $table = $('table').filter(':visible')
+      var tableIndex, entry
+      var clipboard = event.clipboardData;
+
+      tableIndex = $table.index()
+      try {
+        entry = JSON.parse($('#original').text().trim())
+      } catch (e) {
+        console.log('error: ', e)
+        copyresult = true
+      }
+      clipboard.setData("text/plain", 'z')
+    })
+
+   /* client.on( "aftercopy", function(event) {
+      var c = copyresult ? 'overlay-error' : 'overlay-success'
+      $('table').filter(':visible')
+      .find('.paste-overlay').addClass(c)
+      .css('z-index', '2')
+      .fadeIn(100, function() {
+        $(this).fadeOut()
+      })
+    });*/
+  }
+
+  // change theme colors based on time
+  var date = new Date()
+
+  var theme = date.getHours() >= 20 || date.getHours() <= 8 ? 'monokai_sublime' : '_github'
+  var head  = document.getElementsByTagName('head')[0];
+  var link  = document.createElement('link');
+  link.rel  = 'stylesheet';
+  link.type = 'text/css';
+  link.href = './js/highlightjs/styles/' + theme + '.css';
+  head.appendChild(link);
+</script>
+
 
 
 {% endblock %}
