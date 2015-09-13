@@ -127,6 +127,14 @@ main #pastes-container {
   display: block;
   position: relative;
 }
+main #pastes-container #filter-author {
+  clear: both;
+  float: right;
+  background-color: rgba(255,255,255,0.5);
+  border: 1px solid rgba(0,0,0,0.2);
+  margin-bottom: 10px;
+  padding: 5px;
+}
 main #pastes-container #button-clipboard {
   display: none;
 }
@@ -211,6 +219,7 @@ main #pastes {
   font-family: 'Source Code Pro', sans-serif;
   position: relative;
   overflow: auto;
+  clear: both;
 }
 main #pastes table {
   width: 100%;

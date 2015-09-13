@@ -8,7 +8,7 @@
 
 
   // Populate author field if we have it stored
-  var author = window.localStorage.getItem('author') || 'anonymoys'
+  var author = window.localStorage.getItem('author') || 'anonymous'
   $('#author').val(author)
 
   /**
@@ -199,4 +199,33 @@ if (!window.location.pathname.match(/\/$|\/about|\/all/i)) {
       $(this).fadeOut()
     })
   });*/
+}
+
+
+
+if (window.location.pathname == '/all') {
+
+  $paste = $('.paste')
+  $pastes = $paste.find('a')
+
+  $('input').keyup(function(e) {
+    var value = this.value
+    toggle(value)
+  })
+
+  function toggle(value) {
+
+    $found = $pastes.filter('[name="' + value + '"]')
+    if (!$found.length) {
+      $paste.html('Nothing found')
+    } else {
+      $paste.empty()
+      $.each($found, function(i, e) {
+        $paste.append(e)
+      })
+    }
+
+
+  }
+
 }

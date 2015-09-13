@@ -68,8 +68,10 @@ function* getOne () {
 
 function* getAll () {
   var cursor =  yield this.db.entries.find().sort({date:-1}).toArray()
-  var ids = cursor.map((doc) => doc.id)
-  this.body = nunjucks.render('./views/all.html', {ids: ids})
+
+  var id_author_tuple = cursor.map(doc => { return [doc.id, doc.author] })
+
+  this.body = nunjucks.render('./views/all.html', {id_author: id_author_tuple})
 }
 
 

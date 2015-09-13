@@ -3,13 +3,36 @@
 {% extends './base.html' %}
 {% block all %}
   <div id='pastes-container'>
+    <input type="text" placeholder='filter by username' id="filter-author">
     <div id="pastes" style="padding: 15px">
       <div class="paste">
-        {% for id in ids %}
-          <a href='{{ id }}'>{{id}}</a>
+        {% for tuple in id_author %}
+          <a href='{{ tuple[0] }}' name='{{ tuple[1] }}'>{{ tuple[0] }}</a>
         {% endfor %}
       </div>
     </div>
-
   </div>
+
+
+  <script>
+    /*
+      let links = document.querySelectorAll('.paste a');
+
+
+
+      for (let (link of links)) {
+        console.log(link)
+      }
+
+      document.querySelector('input').addEventListener('keypress', function(e) {
+
+
+      })
+
+      function toggle() {
+        console.log(arguments)
+      }
+    */
+
+  </script>
 {% endblock %}

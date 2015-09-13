@@ -200,3 +200,32 @@ if (!window.location.pathname.match(/\/$|\/about|\/all/i)) {
     })
   });*/
 }
+
+
+
+if (window.location.pathname == '/all') {
+
+  $paste = $('.paste')
+  $pastes = $paste.find('a')
+
+  $('input').keyup(function(e) {
+    var value = this.value
+    toggle(value)
+  })
+
+  function toggle(value) {
+
+    $found = $pastes.filter('[name="' + value + '"]')
+    if (!$found.length) {
+      $paste.html('Nothing found')
+    } else {
+      $paste.empty()
+      $.each($found, function(i, e) {
+        $paste.append(e)
+      })
+    }
+
+
+  }
+
+}
