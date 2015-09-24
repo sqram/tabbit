@@ -183,7 +183,7 @@ function* about () {
 function* uniqueId (db) {
 
     // Allowed characters in our ids
-    var chars = '☉♩☹☀☍☡☮☿♎♡♥♬♯⚋⚉abcdefghijklmnopqrst'
+    var chars = '☉♩☹☀☍☮☿♎♡♥♬⚋⚉abcdefghijklmnopqrst'
     chars += 'uvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!&~-+_.'
 
     // Don't need true randomness, this will do.

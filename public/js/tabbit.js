@@ -8,7 +8,7 @@
 
 
   // Populate author field if we have it stored
-  var author = window.localStorage.getItem('author') || 'anonymoys'
+  var author = window.localStorage.getItem('author') || 'anonymous'
   $('#author').val(author)
 
   /**
@@ -150,7 +150,7 @@
 
 
 
-
+/*
 if (!window.location.pathname.match(/\/$|\/about|\/all/i)) {
 
   var clipboardButton = document.getElementById("button-clipboard") || ''
@@ -189,6 +189,7 @@ if (!window.location.pathname.match(/\/$|\/about|\/all/i)) {
     }
     clipboard.setData("text/plain", 'z')
   })
+*/
 
  /* client.on( "aftercopy", function(event) {
     var c = copyresult ? 'overlay-error' : 'overlay-success'
@@ -198,9 +199,9 @@ if (!window.location.pathname.match(/\/$|\/about|\/all/i)) {
     .fadeIn(100, function() {
       $(this).fadeOut()
     })
-  });*/
+  });
 }
-
+*/
 
 
 if (window.location.pathname == '/all') {
