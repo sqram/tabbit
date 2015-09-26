@@ -15,24 +15,30 @@
 
 
   <script>
-    /*
-      let links = document.querySelectorAll('.paste a');
+  /*
+   * If you're wondering why I'm using window.onload, it's because when this
+   * loads, jquery isn't loaded yet.
+   */
+  window.onload = function() {
+    $paste = $('.paste')
+    $pastes = $paste.find('a')
 
+    $('input').keyup(function(e) {
+      var value = this.value
+      toggle(value)
+    })
 
-
-      for (let (link of links)) {
-        console.log(link)
+    function toggle(value) {
+      $found = $pastes.filter('[name="' + value + '"]')
+      if (!$found.length) {
+        $paste.html('Nothing found')
+      } else {
+        $paste.empty()
+        $.each($found, function(i, e) {
+          $paste.append(e)
+        })
       }
-
-      document.querySelector('input').addEventListener('keypress', function(e) {
-
-
-      })
-
-      function toggle() {
-        console.log(arguments)
-      }
-    */
-
+    }
+  }
   </script>
 {% endblock %}

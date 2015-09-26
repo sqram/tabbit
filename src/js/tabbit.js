@@ -54,8 +54,6 @@
   })
 
 
-
-
   /**
    * When the '+' tab is clicked, create a new tab (untitled)
    * and a new textarea.
