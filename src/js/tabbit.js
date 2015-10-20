@@ -143,3 +143,4 @@
     localStorage.pastes = JSON.stringify(original_entry.pastes);
     window.document.location.assign('/');
   })
+
