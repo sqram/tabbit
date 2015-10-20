@@ -184,7 +184,7 @@ function* uniqueId (db) {
 
     // Allowed characters in our ids
     var chars = '☉♩☹☀☍☮☿♎♡♥♬⚋⚉abcdefghijklmnopqrst'
-    chars += 'uvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!&~-+_.'
+    chars += 'uvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!&~-+_'
 
     // Don't need true randomness, this will do.
     var shuffled = chars.split('').sort( () =>  0.5-Math.random()).join('')
